@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Accordion Example</title>
+	<style>
+		.accordion {
+			border: 1px solid #ddd;
+			margin-bottom: 10px;
+		}
+
+		/* .accordion-header {
+			background-color: #f5f5f5;
+			color: #333;
+			cursor: pointer;
+			padding: 10px;
+		} */
+
+		.accordion-header:hover {
+			background-color: #ddd;
+		}
+
+		/* .accordion-body {
+			display: none;
+			padding: 10px;
+		} */
+
+
+		.accordion-header {
+			cursor: pointer;
+			padding: 10px;
+			border: 1px solid black;
+			background-color: #ddd;
+		}
+
+		.accordion-body {
+			padding: 10px;
+			overflow: hidden;
+			transition: all 0.3s ease-in-out;
+			opacity: 0;
+		}		
+	</style>
+</head>
+<body>
+	<div class="accordion">
+		<div class="accordion-header">Header 1</div>
+		<div class="accordion-body">
+		  <p>Body 1</p>
+		</div>
+		<div class="accordion-header">Header 2</div>
+		<div class="accordion-body">
+		  <p>Body 2</p>
+		</div>
+	</div>
+
+	<script>
+		const accordionHeaders = document.querySelectorAll('.accordion-header');
+		const accordionBodies = document.querySelectorAll('.accordion-body');
+
+		accordionHeaders.forEach((header, index) => {
+			header.addEventListener('click', () => {
+
+				// accordionBodies를 순회하면 
+				accordionBodies.forEach((body, idx) => {
+					// header의 인덱스와 일치하지 않을 경우
+					if (idx !== index) {
+						body.style.maxHeight = null;
+						body.style.opacity = 0;
+						
+						// 일치하지 않는 그 index의 header에서 active클래스를 제거
+						accordionHeaders[idx].classList.remove('active');
+					}
+				});
+				
+				header.classList.toggle('active');
+				const accordionBody = header.nextElementSibling;
+				if (accordionBody.style.maxHeight) {
+					accordionBody.style.maxHeight = null;
+					accordionBody.style.opacity = 0;
+				} else {
+					accordionBody.style.maxHeight = accordionBody.scrollHeight + 'px';
+					accordionBody.style.opacity = 1;
+				}
+			});
+		});
+
+	</script>
+</body>
+</html>

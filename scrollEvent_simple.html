@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scroll event simple</title>
+</head>
+<body>
+    <style>
+        .container div{height:100vw;background-color:chartreuse;}
+
+        .fade-in {
+          opacity: 1;
+          background-color: aquamarine;
+          transition: all 2s ease-out;
+        }
+        .fade-in.fade-in-active {
+          opacity: 1;
+          background-color:blueviolet
+        }
+      </style>
+      
+      <div class="container">
+        <div class="other-content">Other content</div>
+        <div class="other-content">Other content</div>
+        <div class="fade-in">Fade-in element</div>
+        <div class="other-content">Other content</div>
+      </div>
+      
+      
+      <script>
+        var fadeInElements = document.querySelectorAll('.fade-in');
+      
+        function fadeIn() {
+          fadeInElements.forEach(function(element) {
+            var elementTop = element.getBoundingClientRect().top;
+            var elementHeight = element.offsetHeight;
+            var scrollY = window.scrollY || window.pageYOffset;
+            var isVisible = scrollY + window.innerHeight > elementTop + elementHeight / 2;
+      
+            if (isVisible) {
+              element.classList.add('fade-in-active');
+            }
+          });
+        }
+      
+        fadeIn();
+        window.addEventListener('scroll', fadeIn);
+      </script>    
+</body>
+</html>
