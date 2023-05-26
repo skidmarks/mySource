@@ -1,0 +1,47 @@
+<script src="https://www.youtube.com/player_api"></script>
+
+<script>
+    // youtube player
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            width: '350%',
+            height: '350%',
+            // videoId: 'TIxVNaROPe0',
+            videoId: 'fEiJn4LlgAs',
+            playerVars: {
+                'autoplay': 1,
+                'playsinline': 1,
+                'controls': 0,
+                'frameborder': 0,
+                'modestbranding': 1
+            },
+            events: {
+                'onReady': onPlayerReady
+            }
+        });
+    }
+
+    // 모바일에서 동영상 자동 플레이시 mute()는 꼭 필요함
+    function onPlayerReady(e) {
+        e.target.mute();
+        e.target.playVideo();
+        e.target.setPlaybackQuality('hd1080');
+        setInterval(function() {
+            player.seekTo(0);
+        }, 15000);
+    }
+
+
+    // mute 버튼을 넣을 때
+    var playerCover = document.querySelector('.player_cover');
+    playerCover.addEventListener('click', function() {
+        if(player.isMuted()) {
+            player.unMute();
+            this.classList.add('on');
+        } else {
+            player.mute();
+            this.classList.remove('on');
+        }                          
+    });                
+</script>

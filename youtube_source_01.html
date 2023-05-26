@@ -1,0 +1,68 @@
+<script src="https://www.youtube.com/player_api"></script>
+
+<script>
+    // youtube player
+    var player;
+    var m = matchMedia("screen and (min-width: 1024px)");
+
+    function onYouTubeIframeAPIReady() {
+
+        if (m.matches) {
+            player = new YT.Player('player', {
+                width: '150%',
+                height: '150%',
+                // videoId: 'TIxVNaROPe0',
+                videoId: 'fEiJn4LlgAs',
+                playerVars: {
+                    'autoplay': 1,
+                    'playsinline': 1,
+                    'controls': 0,
+                    'frameborder': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        } else {
+            player = new YT.Player('player', {
+                width: '350%',
+                height: '350%',
+                // videoId: 'TIxVNaROPe0',
+                videoId: 'fEiJn4LlgAs',
+                playerVars: {
+                    'autoplay': 1,
+                    'playsinline': 1,
+                    'controls': 0,
+                    'frameborder': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+    }
+
+
+    function onPlayerReady(e) {
+        e.target.mute();
+        e.target.playVideo();
+        e.target.setPlaybackQuality('hd1080');
+        setInterval(function() {
+                player.seekTo(0);
+            }, 15000);
+    }
+
+    var playerCover = document.querySelector('.player_cover');
+    playerCover.addEventListener('click', function() {
+        if(player.isMuted()) {
+            player.unMute();
+            this.classList.add('on');
+        } else {
+            player.mute();
+            this.classList.remove('on');
+        }                          
+    });                
+</script>
