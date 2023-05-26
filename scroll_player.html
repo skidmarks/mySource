@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스크롤 유튜브 재생 스탑</title>
+</head>
+<body>
+
+    <div style="background:red;height:1000px;"></div>
+    <span class="image-block youtube" >
+        <iframe id="player" width="100%" src="https://www.youtube.com/embed/eswSE4LsNHY?&amp;loop=1&mute=1&playlist=eswSE4LsNHY&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay " encrypted-media;="" gyroscope;="" allowfullscreen=""></iframe>
+    </span>
+    <div style="background:rgb(27, 168, 171);height:1000px;"></div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script>
+        //1. 유튜브 iframe api를 head 임포트시킨다.
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        //2. 유튜브용 변수 선언
+        var youtubePlayer;
+
+        // onYouTubeIframeAPIReady함수는 플레이어 API 코드가 다운로드되는 즉시 실행됩니다
+        function onYouTubeIframeAPIReady() {
+            youtubePlayer = new YT.Player('player', {
+                playerVars:{
+                    rel:0 //관련영상 표시하지 않기.
+                },
+            });
+        }
+
+        function playVideo() {
+            youtubePlayer.seekTo(0);
+            youtubePlayer.playVideo();//재생
+        }
+
+        function pauseVideo() {
+            youtubePlayer.pauseVideo();// 일시정지
+        }
+
+        // 2. 스크롤 이벤트
+        var isVisible = false;
+        
+        $(window).on('scroll',function() {
+        
+            if (checkVisible($('.youtube'))&&!isVisible) {
+                console.log("Visible!!!");
+                isVisible=true;
+                playVideo();
+            } else if(!checkVisible($('.youtube'))&&isVisible) {
+                console.log("hidden!!!");
+                isVisible=false;
+                pauseVideo();
+            }
+
+        });
+
+        //체크할 element(ex:div span.. 등등)들이 브라우저에 나타날때를 체크하는 함수
+        function checkVisible( elm, eval ) {
+        eval = eval || "object visible";
+        var viewportHeight = $(window).height(), // Viewport Height
+            scrolltop = $(window).scrollTop(), // Scroll Top
+            y = $(elm).offset().top,
+            elementHeight = $(elm).height();
+
+        if (eval == "object visible") return ((y < (viewportHeight + scrolltop)) && (y > (scrolltop - elementHeight)));
+        if (eval == "above") return ((y < (viewportHeight + scrolltop)));
+        }
+
+    </script>
+</body>
+</html>
