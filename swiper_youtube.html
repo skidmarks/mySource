@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube in the Swiper</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9.3.2/swiper-bundle.min.js"></script>
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        .wrapper{width:1024px;margin:0 auto;}
+        .wrapper .inner{padding:50px;}
+        .youtube_swiper{width:500px;overflow:hidden;position:relative;}
+        .youtube_swiper .swiper-slide{width:500px;height:500px;} 
+        .youtube_swiper .swiper-slide > div{width:500px;height:500px;display:flex;justify-content:center;align-items:center;font-weight:bold;font-size:50px;} 
+        .youtube_swiper .swiper-slide:nth-of-type(1) > div{background-color: aqua;} 
+        .youtube_swiper .swiper-slide:nth-of-type(2) > div{background-color: blueviolet;} 
+        .youtube_swiper .swiper-slide:nth-of-type(3) > div{background-color: coral;} 
+        .youtube_swiper .swiper-slide:nth-of-type(4) > div{background-color: darkgreen;} 
+        .youtube_swiper .swiper-slide:nth-of-type(5) > div{background-color: firebrick;} 
+        .youtube_swiper .swiper-slide:nth-of-type(6) > div{background-color: goldenrod;} 
+
+        .clip_wrap{position:relative;}
+        .clip_wrap .player_cover{position:absolute;top:0;left:0;width:100%;height:100%;}
+    </style>
+</head>
+<body>
+    
+    <div class="wrapper">
+        <div class="inner">
+            <div class="youtube_swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><div class="clip_wrap"><div id="player0"></div><div class="player_cover"></div></div></div>
+                    <div class="swiper-slide"><div class="clip_wrap"><div id="player1"></div><div class="player_cover"></div></div></div>
+                    <div class="swiper-slide"><div class="clip_wrap"><div id="player2"></div><div class="player_cover"></div></div></div>
+                    <div class="swiper-slide"><div class="clip_wrap"><div id="player3"></div><div class="player_cover"></div></div></div>
+                    <div class="swiper-slide"><div class="clip_wrap"><div id="player4"></div><div class="player_cover"></div></div></div>
+                    <div class="swiper-slide"><div class="clip_wrap"><div id="player5"></div><div class="player_cover"></div></div></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // swiper settings
+        var swiper = new Swiper(".youtube_swiper", {
+            pagination: {
+                el: ".swiper-pagination",
+                dynamicBullets: true,
+            },            
+        });
+
+        // 현재 swiper-slide Index 알아내기
+    </script>
+
+
+    <script src="https://www.youtube.com/player_api"></script>
+
+    <script>
+        // youtube player
+        const players = [];
+
+        // clip ID
+        const clipIds = ['fEiJn4LlgAs', 'grxS6XTylX0', 'vhkCBOsOoYY', 'kihrFxwdMb4', 'jiyPV1Uqkb8', '7FaRndNm3dE'];
+
+        // play common options;
+        const playOptions = {
+            width: '100%',
+            height: '100%',
+            // videoId: 'TIxVNaROPe0',
+            // videoId: 'fEiJn4LlgAs',
+            playerVars: {
+                'autoplay': 1,
+                'playsinline': 1,
+                'controls': 0,
+                'frameborder': 0,
+                'modestbranding': 1
+            },
+            events: {
+                'onReady': onPlayerReady
+            }
+        }
+
+        function onYouTubeIframeAPIReady() {
+
+            // youtube iframe ready 확인하기
+            console.log('IframeAPIReady!!!!');
+
+            
+            // clipIds 배열을 순회하면서 player를 생성하여 players 배열에 넣는다.
+            clipIds.forEach(function(clipId, idx) {
+                
+                // console.log(players);
+
+                playOptions.videoId = clipId;
+                playerId = 'player' + idx;
+                player = new YT.Player(playerId, playOptions);
+
+
+                // players[idx] = player;
+                players.push(idx);
+            });        
+        }
+
+        console.log(players);
+
+        // 모바일에서 동영상 자동 플레이시 mute()는 꼭 필요함
+        function onPlayerReady(e) {
+            e.target.mute();
+            // e.target.playVideo();
+            e.target.stopVideo();
+            e.target.setPlaybackQuality('hd1080');
+            // setInterval(function() {
+            //     player.seekTo(0);
+            // }, 15000);
+        }
+
+
+        // mute 버튼을 넣을 때
+        var playerCover = document.querySelector('.player_cover');
+
+        // console.log()
+        // playerCover.addEventListener('click', function() {
+        //     console.log('click tester');
+
+        //     if(player.isMuted()) {
+        //         player.unMute();
+        //         this.classList.add('on');
+        //     } else {
+        //         player.mute();
+        //         this.classList.remove('on');
+        //     }                          
+        // });                
+    </script>
+</body>
+</html>
