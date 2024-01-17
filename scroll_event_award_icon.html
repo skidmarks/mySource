@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scroll icon animation</title>
+    <style>
+        .event_wrap{height:500vh;}
+
+
+        .smart_home{position:fixed;top:70%;right:5%;width:15.6%;z-index:200;max-width:156px;}
+        .ces_best_innov{position:fixed;top:73%;right:11%;width:0;z-index:199;max-width:294px;transition:all 0.5s;}
+        .ces_best_innov.active{width:29.4%;max-width:294px;}
+
+        @media (min-width:600px){
+        .smart_home{top:56%;right:5%;}
+        .ces_best_innov{top:60%;right:11%;}
+        }
+        @media (min-width:1000px){
+        .smart_home{top:40%;right:5%;width:78px;}
+        .ces_best_innov{top:44%;right:7%;width:0;}
+        .ces_best_innov.active{width:147px;max-width:none;}
+        }        
+    </style>
+</head>
+<body>
+
+    <div class="event_wrap">
+
+    </div>
+
+    <img class="smart_home" src="/images/smart_home.png" alt="">
+    <img class="ces_best_innov" id="myImage" src="/images/ces_best_2024.png" alt="">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            var $bestInnovMark = document.querySelector('.ces_best_innov');
+            var isScrolling;
+
+            window.onscroll = function() {
+                $bestInnovMark.classList.remove('active');
+                window.clearTimeout( isScrolling );
+                isScrolling = setTimeout(function() {
+                    $bestInnovMark.classList.add('active');
+                }, 500);
+
+            };     
+        });   
+    </script>
+</body>
+</html>
