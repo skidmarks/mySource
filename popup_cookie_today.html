@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="pop_evt_wrap" style="display:block;">
+        <div class="pop_evt_inner">
+            <div class="pop_evt_cnt">
+                <img src="../images/event/202402/popup.png" alt="설 명절 맞이 이벤트: 총 500만원의 주인공은? 2024.1.1 ~ 3.31까지">
+            </div>
+            <div class="pop_evt_bot">
+                <button class="btn_close_today">오늘은 그만보기</button>
+                <button class="btn_close_evtpop">닫기</button>
+            </div>
+        </div><!--/pop_evt_inner--> 
+    </div><!--/pop_evt_wrap-->       
+
+    <script type="text/javascript">
+        (function() {
+
+            const popEventLayer = document.querySelector('.pop_evt_wrap');
+            const btnCloseEventPop = document.querySelector('.btn_close_evtpop');
+            const btnCloseTodayPop = document.querySelector('.btn_close_today');
+
+            /* 스토리지 제어 함수 정의 */
+            var handleStorage = {
+                // 스토리지에 데이터 쓰기(이름, 만료일)
+                setStorage: function (name, exp) {
+                    var date = new Date();
+                    date = date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
+                    localStorage.setItem(name, date)
+                },
+                // 스토리지 읽어오기
+                getStorage: function (name) {
+                    var now = new Date();
+                    now = now.setTime(now.getTime());
+                    return parseInt(localStorage.getItem(name)) > now
+                }
+            };
+
+            // 쿠키 읽고 화면 보이게
+            if (handleStorage.getStorage("today")) {
+                popEventLayer.style.display = "none";
+            } else {
+                popEventLayer.style.display = "block";
+            }
+
+            // 오늘 하루 보지 않기 버튼
+            btnCloseTodayPop.addEventListener("click", function() {
+                handleStorage.setStorage("today", 1);
+                popEventLayer.style.display = "none";
+            });
+
+            // 일반 닫기 버튼
+            btnCloseEventPop.addEventListener("click", function() {
+                popEventLayer.style.display = "none";
+            });        
+        })();
+
+    </script>
+
+</body>
+</html>
