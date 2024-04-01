@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scroll icon animation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <style>
+        .kits_swiper{position:relative;width:100%;overflow:hidden;padding-bottom:5%;}
+        .kits_swiper .swiper-pagination{bottom:0;}
+        .kits_swiper .swiper-pagination-bullet-active{background-color:#000;}
+        @media (min-width:1024px) {
+
+            .kits_wrap{padding-top:5em;}
+            .kits_wrap .swiper-wrapper{display:flex;justify-content:left;align-items:start;flex-wrap:wrap;box-sizing:border-box;width:auto;}
+            .kits_wrap .swiper-wrapper .swiper-slide{width:50%;}
+            .kits_swiper .swiper-pagination{display:none;}
+        }     
+    </style>
+</head>
+<body>
+
+    <h1>
+        width:1024px을 기준으로 1024px보다 작을 경우에, swiper scroll이 작동한다
+    </h1>
+
+    <div class="kits_wrap">
+        <div class="kits_swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="https://www.wooriipet.com/images/sub/kit_01.png" alt="1번 키트 : 이별 준비 - 예기치 못한 순간, 아이를 소중히 간직할 수 있도록 아이의 사진과 털을 보관할 수 있습니다. (가이드북, 액자, 털보관함)"></div>
+                <div class="swiper-slide"><img src="https://www.wooriipet.com/images/sub/kit_02.png" alt="2번 키트 : 수습 - 수습 물품을 사용하여, 고마운 마음을 담아 우리 아이를 온전하게 수습할 수 있습니다.(수습장갑, 물티슈, 마우스피스, 수습패드, 눈가림모자, 추억공간 깔개, 베개, 방향제)"></div>
+                <div class="swiper-slide"><img src="https://www.wooriipet.com/images/sub/kit_03.png" alt="3번 키트 : 안치 및 장례 - 아이에게 마지막 작별인사를 하고, 장묘 업체까지 함께 이동해 정성을 다한 장례를 치를 수 있습니다.(포대기, 수습가방 & 이름표)"></div>
+                <div class="swiper-slide"><img src="https://www.wooriipet.com/images/sub/kit_04.png" alt="4번 키트 : 추모 -우리 아이와 함께 했던 고마움과 추억을 오래동안 간직할 수 있습니다.(추억공간, 화병)"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div><!--/kits_wrap-->
+
+    <script>
+        // kit slider
+        function kitSliderPlayer() {
+            
+            // .kits_swiper가 있는지 여부 확인
+            if (document.querySelectorAll('.kits_swiper').length > 0) {
+
+                // Swiper 인스턴스 생성
+                var kitsSwiper;
+
+                function handleMediaQuery(event) {
+                    if (event.matches) {
+                        // 1024px 이상인 경우 Swiper 제거
+                        if(kitsSwiper) {
+                            kitsSwiper.destroy();
+                            kitsSwiper = undefined;
+                        }
+                    } else {
+                        // 1024px 미만인 경우 Swiper 다시 생성
+                        if(!kitsSwiper) {
+                            kitsSwiper = new Swiper('.kits_swiper', {
+                                loop:true,
+                                autoplay:true,
+                                pagination: {
+                                    el: '.swiper-pagination',
+                                },
+                                autoplay: true,
+                            });                  
+                        }
+                    }
+                }
+
+                // 미디어 쿼리 리스너 추가
+                const mediaQuery = window.matchMedia('(min-width: 1024px)');
+                mediaQuery.addEventListener('change', handleMediaQuery);        
+
+                // 페이지 로드 시 초기 처리
+                handleMediaQuery(mediaQuery);
+            }
+            
+        }kitSliderPlayer();
+    </script>
+</body>
+</html>
